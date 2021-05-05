@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgresql-pvc
+  namespace: demo-golang
+spec:
+  volumeName: postgresql-pv
+  storageClassName: local-storage
+  volumeMode: Filesystem
+  resources:
+    requests:
+      storage: 10Gi
+  accessModes:
+    - ReadWriteOnce

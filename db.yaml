@@ -2,6 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: db-config
+  namespace: demo-golang
   labels:
     dockerdev: db
 data:
@@ -15,6 +16,7 @@ metadata:
   labels:
     dockerdev: db
   name: db
+  namespace: demo-golang
 spec:
   serviceName: dockerdev-db
   selector:
@@ -35,13 +37,14 @@ spec:
           ports:
             - containerPort: 5432
           volumeMounts:
-            - name: db-init
-              mountPath: /docker-entrypoint-initdb.d/init.sql
-              subPath: init.sql
+            - name: db-config
+              mountPath: /docker-entrypoint-initdb.d
       volumes:
-        -  name: db-init
-           hostPath:
-             path: /d/dockerdev
+        - name: db-config
+          persistentVolumeClaim:
+            claimName: postgresql-pvc
+
+
 ---
 apiVersion: v1
 kind: Service
@@ -49,12 +52,12 @@ metadata:
   labels:
     dockerdev: db
   name: dockerdev-db-exported
+  namespace: demo-golang
 spec:
-  type: NodePort
+  type: LoadBalancer
   ports:
     - name: 5432-tcp
       port: 5432
       targetPort: 5432
-      nodePort: 30432
   selector:
     dockerdev: db

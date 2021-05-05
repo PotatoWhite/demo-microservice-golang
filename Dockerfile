@@ -1,5 +1,5 @@
 # Compile stage
-FROM golang:1.14.2 AS build-env
+FROM golang:1.16.3 AS build-env
 
 # Enable the vendoring mode
 ENV GOFLAGS="-mod=vendor"
