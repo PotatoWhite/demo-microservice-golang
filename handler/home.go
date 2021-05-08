@@ -2,27 +2,29 @@ package handler
 
 import (
 	"fmt"
-	"net/http"
-
 	"github.com/jmoiron/sqlx"
+	"net/http"
 )
 
-//Home handles the home page
-func Home(db *sqlx.DB) func(w http.ResponseWriter, r *http.Request) {
-	return func(w http.ResponseWriter, r *http.Request) {
-		visitorID := 0
-		err := db.QueryRow(
-			"INSERT INTO visitors(user_agent, datetime) VALUES ($1, now()) RETURNING id",
-			r.UserAgent(),
-		).Scan(&visitorID)
+// Home handles the home page
+func Home(db *sqlx.DB) func(writer http.ResponseWriter, request *http.Request) {
+	return func(writer http.ResponseWriter, request *http.Request) {
+		visitorId := 0
+		err := db.QueryRow("INSERT INTO visitors(user_agent, datetime) VALUES ($1, now()) RETURNING id",
+			request.UserAgent(),
+		).Scan(&visitorId)
 
 		if err != nil {
-			w.WriteHeader(http.StatusInternalServerError)
-			_, _ = w.Write([]byte("Internal error"))
+			writer.WriteHeader(http.StatusInternalServerError)
+
+			errorMsg := fmt.Sprintf("Internal error %v", err)
+			_, _ = writer.Write([]byte(errorMsg))
+
 			return
 		}
 
-		w.WriteHeader(http.StatusOK)
-		_, _ = fmt.Fprint(w, fmt.Sprintf("{\"status\":  200, \"message\": \"Hello visitor %d!\"}", visitorID))
+		writer.WriteHeader(http.StatusOK)
+		_, _ = fmt.Fprint(writer, fmt.Sprintf("Hello visitor! : %d !", visitorId))
 	}
 }
+s
