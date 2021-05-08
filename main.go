@@ -16,7 +16,7 @@ func main() {
 
 	dbHost := os.Getenv("DB_HOST")
 	if dbHost == "" {
-		dbHost = "localhost"
+		dbHost = "172.16.0.101"
 	}
 
 	db, err := sqlx.Connect("postgres", fmt.Sprintf(dataSource, dbHost))
