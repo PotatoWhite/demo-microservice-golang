@@ -1,4 +1,4 @@
-module github.com/dlsniper/go-microservice-webinar
+module github.com/PotatoWhite/demo-microservice-golang
 
 go 1.16
 

@@ -3,14 +3,12 @@ package main
 import (
 	_ "database/sql"
 	"fmt"
-	"github.com/potatowhite/go-microservice-webinar/handler"
+	"github.com/PotatoWhite/demo-microservice-goland/handler"
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
 	"log"
 	"net/http"
 	"os"
-
-	""
 )
 
 func main() {
