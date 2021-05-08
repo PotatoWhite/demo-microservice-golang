@@ -24,6 +24,7 @@ func Home(db *sqlx.DB) func(writer http.ResponseWriter, request *http.Request) {
 		}
 
 		writer.WriteHeader(http.StatusOK)
-		_, _ = fmt.Fprint(writer, fmt.Sprintf("Hello visitor! : %d !", visitorId))
+		writer.Header().Set("Content-Type", "application/json")
+		_, _ = fmt.Fprint(writer, fmt.Sprintf("{\"status\":200,\"message\":\"Hello visitor! : %d\"}", visitorId))
 	}
 }
