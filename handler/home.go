@@ -27,4 +27,3 @@ func Home(db *sqlx.DB) func(writer http.ResponseWriter, request *http.Request) {
 		_, _ = fmt.Fprint(writer, fmt.Sprintf("Hello visitor! : %d !", visitorId))
 	}
 }
-s
